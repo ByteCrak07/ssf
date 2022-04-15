@@ -1,11 +1,10 @@
-(function (doc, win) {
+(function(doc, win) {
   "use strict";
 
   /**
    * @see https://github.com/hesambayat/is-touch-device-javascript
    */
-  var istouch =
-    "undefined" !== IS_TOUCH_DEVICE && IS_TOUCH_DEVICE ? true : false;
+  var istouch = "undefined" !== IS_TOUCH_DEVICE && IS_TOUCH_DEVICE ? true : false;
 
   var isMac = false;
 
@@ -13,11 +12,7 @@
    * @see https://stackoverflow.com/a/38241481/2131534
    */
   try {
-    if (
-      ["Macintosh", "MacIntel", "MacPPC", "Mac68K"].indexOf(
-        win.navigator.platform
-      ) !== -1
-    ) {
+    if (["Macintosh", "MacIntel", "MacPPC", "Mac68K"].indexOf(win.navigator.platform) !== -1) {
       isMac = true;
     }
   } catch (error) {}
@@ -39,7 +34,7 @@
     // paper has not included.
     if ("undefined" === typeof paper) return;
 
-    doc.querySelectorAll(".paper--patterns").forEach(function (parent) {
+    doc.querySelectorAll(".paper--patterns").forEach(function(parent) {
       var canvas = parent.querySelector("canvas"),
         config = win[parent.getAttribute("data-elements")],
         scope = new paper.PaperScope();
@@ -58,25 +53,25 @@
           y: 0,
           limit: 0.2,
           speed: 0.00015,
-          onmove: false,
+          onmove: false
         },
         tilt = {
           min: 40,
           max: -40,
           speed: 0.002,
           angle: 0,
-          direction: 1,
+          direction: 1
         },
         setting = {
           deltaX: 0,
-          deltaY: 0,
+          deltaY: 0
         },
         group;
 
       // animations
 
       // mouse move animation
-      var mouseMove = function (event) {
+      var mouseMove = function(event) {
         // pause on page scroll
         if (false !== pageScrolling) {
           return;
@@ -89,31 +84,21 @@
 
         for (var i = 0, len = group.children.length; i < len; i++) {
           // set new x axis if its in limited radius
-          setting.deltaX =
-            group.children[i].position.x +
-            (mouse.x - viewport.x) * ((i + 1) * mouse.speed);
-          if (
-            setting.deltaX > group.children[i].limits.x.min &&
-            setting.deltaX < group.children[i].limits.x.max
-          ) {
+          setting.deltaX = group.children[i].position.x + (mouse.x - viewport.x) * ((i + 1) * mouse.speed);
+          if (setting.deltaX > group.children[i].limits.x.min && setting.deltaX < group.children[i].limits.x.max) {
             group.children[i].position.x = setting.deltaX;
           }
 
           // set new y axis if its in limited radius
-          setting.deltaY =
-            group.children[i].position.y +
-            (mouse.y - viewport.y) * ((i + 1) * mouse.speed);
-          if (
-            setting.deltaY > group.children[i].limits.y.min &&
-            setting.deltaY < group.children[i].limits.y.max
-          ) {
+          setting.deltaY = group.children[i].position.y + (mouse.y - viewport.y) * ((i + 1) * mouse.speed);
+          if (setting.deltaY > group.children[i].limits.y.min && setting.deltaY < group.children[i].limits.y.max) {
             group.children[i].position.y = setting.deltaY;
           }
         }
       };
 
       // auto tilt animation
-      var tiltMove = function (event) {
+      var tiltMove = function(event) {
         // pause on page scroll
         if (false !== pageScrolling) {
           return;
@@ -137,31 +122,31 @@
       // helpers
 
       // shorten for paper.Point
-      var point = function (axis, y) {
+      var point = function(axis, y) {
         if (undefined !== y) {
           axis = {
             x: axis,
-            y: y,
+            y: y
           };
         }
         return new scope.Point(axis.x, axis.y);
       };
 
       // get coordinates from center
-      var getCoordinates = function (axis) {
+      var getCoordinates = function(axis) {
         return {
           x: viewport.x + axis[display].x,
-          y: viewport.y + axis[display].y,
+          y: viewport.y + axis[display].y
         };
       };
 
       // transform to a point
-      var translate = function (axis) {
+      var translate = function(axis) {
         return point(getCoordinates(axis));
       };
 
       // recognize display size & draw
-      var update = function () {
+      var update = function() {
         if (false !== drawing) {
           return;
         }
@@ -184,7 +169,7 @@
       };
 
       // recognize the mouse cordination
-      var mouseCoordinates = function (points) {
+      var mouseCoordinates = function(points) {
         clearTimeout(mouse.onmove);
         mouse.x = points.x;
         mouse.y = points.y;
@@ -193,24 +178,24 @@
           mouseMove();
         }
 
-        mouse.onmove = setTimeout(function () {
+        mouse.onmove = setTimeout(function() {
           mouse.onmove = false;
         }, 100);
       };
 
       // set limit radius for meshes
-      var updateLimits = function (limit) {
+      var updateLimits = function(limit) {
         for (var i = 0, len = group.children.length; i < len; i++) {
           limit = (group.children[i].index + 1) / mouse.limit;
           group.children[i].limits = {
             x: {
               min: group.children[i].position.x - limit,
-              max: group.children[i].position.x + limit,
+              max: group.children[i].position.x + limit
             },
             y: {
               min: group.children[i].position.y - limit,
-              max: group.children[i].position.y + limit,
-            },
+              max: group.children[i].position.y + limit
+            }
           };
         }
 
@@ -220,12 +205,8 @@
 
       var shapes = {
         // generate a new triangle
-        triangle: function (config, mesh) {
-          mesh = new scope.Path.RegularPolygon(
-            translate(config),
-            3,
-            config[display].size
-          );
+        triangle: function(config, mesh) {
+          mesh = new scope.Path.RegularPolygon(translate(config), 3, config[display].size);
           mesh.strokeColor = config.strokeColor;
           mesh.strokeWidth = config.strokeWidth;
           mesh.blendMode = config.blendMode || "normal";
@@ -234,7 +215,7 @@
         },
 
         // generate a new circle
-        circle: function (config, mesh) {
+        circle: function(config, mesh) {
           mesh = new scope.Path.Circle(translate(config), config[display].size);
           mesh.strokeColor = config.strokeColor;
           mesh.strokeWidth = config.strokeWidth;
@@ -243,7 +224,7 @@
         },
 
         // generate a new wave path
-        wave: function (config, mesh, size) {
+        wave: function(config, mesh, size) {
           size = getCoordinates(config);
           size.a = config[display].size;
           size.b = Math.floor(size.a * 0.5);
@@ -265,23 +246,23 @@
         },
 
         // generate a new raster
-        raster: function (config, mesh) {
+        raster: function(config, mesh) {
           mesh = new scope.Raster({
             source: config.src,
-            position: translate(config),
+            position: translate(config)
           });
           mesh.blendMode = config.blendMode || "normal";
-          mesh.on("load", function () {
+          mesh.on("load", function() {
             mesh.setHeight(mesh.height + 1);
             mesh.setHeight(mesh.height - 1); // fix issue https://github.com/paperjs/paper.js/issues/1192#issuecomment-300736753
             mesh.scale(config[display].scale || 0.5);
             mesh.rotate(config.rotate || 0);
           });
           group.addChild(mesh);
-        },
+        }
       };
 
-      var addChildren = function () {
+      var addChildren = function() {
         for (var i = 0, len = config.length; i < len; i++) {
           shapes[config[i].type] && shapes[config[i].type](config[i]);
         }
@@ -296,7 +277,7 @@
 
       // On resize
       var resizing = 0;
-      scope.view.onResize = function (e) {
+      scope.view.onResize = function(e) {
         scope.activate();
         scope.view._needsUpdate = true;
         scope.view.update();
@@ -304,7 +285,7 @@
 
         classie.add(parent, "resizing");
         clearTimeout(resizing);
-        resizing = setTimeout(function () {
+        resizing = setTimeout(function() {
           classie.remove(parent, "resizing");
         }, 500);
       };
@@ -312,9 +293,9 @@
       // disable animations on window scroll event
       win.addEventListener(
         "scroll",
-        function (e) {
+        function(e) {
           clearTimeout(pageScrolling);
-          pageScrolling = setTimeout(function () {
+          pageScrolling = setTimeout(function() {
             pageScrolling = false;
           }, 25);
         },
@@ -322,7 +303,7 @@
       );
 
       // start mouse animation on mouse move event
-      tools.onMouseMove = function (event) {
+      tools.onMouseMove = function(event) {
         mouseCoordinates(event.lastPoint);
       };
     });
@@ -338,12 +319,10 @@
     // animate paper has not included.
     if ("undefined" === typeof animatePaper) return;
 
-    doc.querySelectorAll(".paper--gooey").forEach(function (parent) {
+    doc.querySelectorAll(".paper--gooey").forEach(function(parent) {
       var canvas = parent.querySelector("canvas"),
         config = [].concat(win[parent.getAttribute("data-elements")]),
         scope = new paper.PaperScope();
-
-      console.log(config);
 
       scope.setup(canvas);
       scope.view.viewSize.width = canvas.clientWidth;
@@ -358,7 +337,7 @@
         shapes = [];
 
       // recognize display size & draw
-      var update = function () {
+      var update = function() {
         if (false !== drawing) {
           return;
         }
@@ -377,15 +356,15 @@
           var cords = {
             center: {
               x: scope.view.center.x + shape[display].center.x,
-              y: scope.view.center.y + shape[display].center.y,
-            },
+              y: scope.view.center.y + shape[display].center.y
+            }
           };
 
           var mesh = Object.assign(
             {
               radius: 100,
               center: { x: 0, y: 0 },
-              fillColor: "#00000",
+              fillColor: "#00000"
             },
             shape[display],
             cords
@@ -397,19 +376,19 @@
           if ("mask" === shape.type) {
             mask = new scope.Raster({
               source: shape.src,
-              position: mesh.center,
+              position: mesh.center
             });
             mask.opacity = 0;
-            mask.on("load", function () {
+            mask.on("load", function() {
               animatePaper.animate(mask, {
                 properties: {
-                  opacity: 1,
+                  opacity: 1
                 },
                 settings: {
                   duration: shape.fadeIn || 2000,
                   easing: "easeInOutCirc",
-                  complete: function (item, animation) {},
-                },
+                  complete: function(item, animation) {}
+                }
               });
             });
           }
@@ -427,7 +406,7 @@
               relativeY: circlePath.segments[ii].point.y - mesh.center.y,
               offsetX: rotationMultiplicator,
               offsetY: rotationMultiplicator,
-              momentum: new scope.Point(0, 0),
+              momentum: new scope.Point(0, 0)
             });
           }
 
@@ -452,13 +431,13 @@
           circlePath.opacity = 0;
           animatePaper.animate(circlePath, {
             properties: {
-              opacity: 1,
+              opacity: 1
             },
             settings: {
               duration: shape.fadeIn || 2000,
               easing: "easeInOutCirc",
-              complete: function (item, animation) {},
-            },
+              complete: function(item, animation) {}
+            }
           });
 
           shapes.push(shape);
@@ -466,7 +445,7 @@
 
         // run animation
         if (true !== istouch) {
-          scope.view.onFrame = function (event) {
+          scope.view.onFrame = function(event) {
             animate(event);
           };
         }
@@ -475,7 +454,7 @@
       };
 
       // animation
-      var animate = function (event) {
+      var animate = function(event) {
         for (var i = 0, len = shapes.length; i < len; i++) {
           var shape = shapes[i];
           var mesh = shape.mesh;
@@ -497,18 +476,13 @@
 
             var newOffset = new scope.Point(0, 0);
             if (mouseDistance !== 0) {
-              newOffset = new scope.Point(
-                (mouseOffset.x / mouseDistance) * newDistance,
-                (mouseOffset.y / mouseDistance) * newDistance
-              );
+              newOffset = new scope.Point((mouseOffset.x / mouseDistance) * newDistance, (mouseOffset.y / mouseDistance) * newDistance);
             }
 
             var newPosition = controlPoint.add(newOffset);
             var distanceToNewPosition = segment.point.subtract(newPosition);
 
-            settings.momentum = settings.momentum.subtract(
-              distanceToNewPosition.divide(6)
-            );
+            settings.momentum = settings.momentum.subtract(distanceToNewPosition.divide(6));
             settings.momentum = settings.momentum.multiply(0.6);
 
             // Add automatic rotation
@@ -516,9 +490,7 @@
             var amountY = settings.offsetY;
             var sinus = Math.sin(event.time + ii * 4);
             var cos = Math.cos(event.time + ii * 4);
-            settings.momentum = settings.momentum.add(
-              new scope.Point(cos * -amountX, sinus * -amountY)
-            );
+            settings.momentum = settings.momentum.add(new scope.Point(cos * -amountX, sinus * -amountY));
 
             // go to the point, now!
             segment.point = segment.point.add(settings.momentum);
@@ -532,7 +504,7 @@
       update();
 
       // On resize
-      scope.view.onResize = function (e) {
+      scope.view.onResize = function(e) {
         scope.activate();
         scope.view._needsUpdate = true;
         scope.view.update();
@@ -542,9 +514,9 @@
       // disable animations on window scroll event
       win.addEventListener(
         "scroll",
-        function (e) {
+        function(e) {
           clearTimeout(self.pageScrolling);
-          self.pageScrolling = setTimeout(function () {
+          self.pageScrolling = setTimeout(function() {
             self.pageScrolling = false;
           }, 25);
         },
@@ -552,7 +524,7 @@
       );
 
       // mouse move
-      tools.onMouseMove = function (event) {
+      tools.onMouseMove = function(event) {
         mousePoint = event.lastPoint;
       };
     });
@@ -566,7 +538,7 @@
     // paper has not included.
     if ("undefined" === typeof paper) return;
 
-    doc.querySelectorAll(".paper--stars").forEach(function (parent) {
+    doc.querySelectorAll(".paper--stars").forEach(function(parent) {
       var canvas = parent.querySelector("canvas"),
         config = win[parent.getAttribute("data-elements")],
         scope = new paper.PaperScope();
@@ -576,26 +548,17 @@
       scope.view.viewSize.height = canvas.clientHeight;
 
       var tools = new scope.Tool(),
-        mousePos = new scope.Point(
-          scope.view.center.x,
-          scope.view.center.y + 100
-        ),
+        mousePos = new scope.Point(scope.view.center.x, scope.view.center.y + 100),
         position = scope.view.center;
 
       // strat drawing
-      var build = function () {
-        position = new scope.Point(
-          position.x + (mousePos.x - position.x) / 10,
-          position.y + (mousePos.y - position.y) / 10
-        );
-        var vector = new scope.Point(
-          (scope.view.center.x - position.x) / 10,
-          (scope.view.center.y - position.y) / 10
-        );
+      var build = function() {
+        position = new scope.Point(position.x + (mousePos.x - position.x) / 10, position.y + (mousePos.y - position.y) / 10);
+        var vector = new scope.Point((scope.view.center.x - position.x) / 10, (scope.view.center.y - position.y) / 10);
         moveStars(vector);
       };
 
-      var moveStars = new (function () {
+      var moveStars = new function() {
         // The amount of symbol we want to place;
         var count = config.count || 50;
 
@@ -603,7 +566,7 @@
         var path = new scope.Path.Circle({
           center: [0, 0],
           radius: config.radius || 4,
-          fillColor: config.fillColor || "black",
+          fillColor: config.fillColor || "black"
         });
 
         var symbol = new scope.Symbol(path);
@@ -612,23 +575,20 @@
         for (var i = 0; i < count; i++) {
           // The center position is a random point in the view:
           var rand = scope.Point.random();
-          var center = new scope.Point(
-            rand.x * scope.view.size.width,
-            rand.y * scope.view.size.height
-          );
+          var center = new scope.Point(rand.x * scope.view.size.width, rand.y * scope.view.size.height);
           var placed = symbol.place(center);
           placed.scale(i / count + 0.01);
           placed.data = {
             vector: new scope.Point({
               angle: Math.random() * 360,
-              length: ((i / count) * Math.random()) / 5,
-            }),
+              length: ((i / count) * Math.random()) / 5
+            })
           };
         }
 
         var vector = new scope.Point({
           angle: 45,
-          length: 0,
+          length: 0
         });
 
         function keepInView(item) {
@@ -653,7 +613,7 @@
           }
         }
 
-        return function (vector) {
+        return function(vector) {
           // Run through the active layer's children list and change
           // the position of the placed symbols:
           var layer = scope.project.activeLayer;
@@ -663,14 +623,11 @@
             var length = ((vector.length / 10) * size.width) / 10;
             // item.position += vector.normalize(length) + item.data.vector;
             var normalized = vector.normalize(length);
-            item.position = new scope.Point(
-              item.position.x + normalized.x + item.data.vector.x,
-              item.position.y + normalized.y + item.data.vector.y
-            );
+            item.position = new scope.Point(item.position.x + normalized.x + item.data.vector.x, item.position.y + normalized.y + item.data.vector.y);
             keepInView(item);
           }
         };
-      })();
+      }();
 
       // add shapes
       build();
@@ -679,7 +636,7 @@
       // run animation
       if (true !== istouch) {
         // mouse move
-        tools.onMouseMove = function (event) {
+        tools.onMouseMove = function(event) {
           mousePos = event.lastPoint;
         };
 
@@ -712,7 +669,7 @@
         autoplay: parseInt(scope.getAttribute("data-autoplay")) || 3000,
         rotate: scope.getAttribute("data-rotate") || "on",
         onInit: init,
-        onChange: update,
+        onChange: update
       };
 
       //   console.log({ config });
@@ -720,16 +677,14 @@
       // handle carousel auto height
       function resize(first) {
         if (first === false) {
-          self.selector.style.height =
-            Math.ceil(self.innerElements[self.currentSlide].clientHeight) +
-            "px";
+          self.selector.style.height = Math.ceil(self.innerElements[self.currentSlide].clientHeight) + "px";
         }
       }
 
       // auto play
       function next() {
         clearTimeout(self.autoPlayTimeout);
-        self.autoPlayTimeout = setTimeout(function () {
+        self.autoPlayTimeout = setTimeout(function() {
           if (true === self.config.loop) {
             self.next();
           } else {
@@ -746,15 +701,9 @@
       // handle carousel and its items classes
       function update(status) {
         self = self || this;
-        var dashed =
-          self.innerElements[self.currentSlide].querySelector(".dashed");
+        var dashed = self.innerElements[self.currentSlide].querySelector(".dashed");
 
-        if (
-          "init" !== status &&
-          0 < self.copies.length &&
-          500 !== self.config.duration &&
-          true !== self.fistCopyDelaySet
-        ) {
+        if ("init" !== status && 0 < self.copies.length && 500 !== self.config.duration && true !== self.fistCopyDelaySet) {
           self.copies[0].style.animationDelay = self.config.duration + "ms";
           self.fistCopyDelaySet = true;
         }
@@ -776,24 +725,18 @@
           if (null !== dashed) {
             var dash = self.innerElements[i].querySelector(".dashed");
             if (dash !== null) {
-              classie.remove(
-                self.innerElements[i].querySelector(".dashed"),
-                "in-view__child--in"
-              );
+              classie.remove(self.innerElements[i].querySelector(".dashed"), "in-view__child--in");
             }
           }
         }
 
         // add active class to current slide
-        classie.add(
-          self.innerElements[self.currentSlide],
-          "carousel__item--active"
-        );
+        classie.add(self.innerElements[self.currentSlide], "carousel__item--active");
         if (0 < self.dotElements.length) {
           classie.add(self.dotElements[self.currentSlide], "active");
         }
 
-        setTimeout(function () {
+        setTimeout(function() {
           if (null !== dashed) {
             classie.add(dashed, "in-view__child--in");
           }
@@ -809,10 +752,7 @@
         }
 
         // if last item is active
-        if (
-          false === self.config.loop &&
-          self.innerElements.length - 1 === self.currentSlide
-        ) {
+        if (false === self.config.loop && self.innerElements.length - 1 === self.currentSlide) {
           classie.add(scope, "carousel--on-last");
         }
 
@@ -838,14 +778,14 @@
 
         // go prev
         if (null !== prev) {
-          prev.addEventListener("click", function () {
+          prev.addEventListener("click", function() {
             self.prev();
           });
         }
 
         // go next
         if (null !== next) {
-          next.addEventListener("click", function () {
+          next.addEventListener("click", function() {
             self.next();
           });
         }
@@ -868,15 +808,12 @@
               classie.add(dot, "active");
             }
 
-            dot.style.transition =
-              "all 0.6s " +
-              Math.round((i * 0.1 + 0.2) * 10) / 10 +
-              "s cubic-bezier(0.68, -1, 0.27, 2)";
+            dot.style.transition = "all 0.6s " + Math.round((i * 0.1 + 0.2) * 10) / 10 + "s cubic-bezier(0.68, -1, 0.27, 2)";
 
             self.dotElements.push(dot);
             self.dots.appendChild(dot);
 
-            dot.addEventListener("click", function () {
+            dot.addEventListener("click", function() {
               self.goTo(this.slideTarget);
               update("dot");
             });
@@ -886,10 +823,10 @@
         // on window resize
         win.addEventListener(
           "resize",
-          function () {
+          function() {
             classie.add(scope, "carousel--resizing");
             clearTimeout(emit);
-            emit = setTimeout(function () {
+            emit = setTimeout(function() {
               resize(false);
               classie.remove(scope, "carousel--resizing");
             }, 200);
@@ -899,12 +836,9 @@
 
         // on carousel__item resize
         for (var i = 0, len = self.innerElements.length; i < len; i++) {
-          self.innerElements[i].resizeSensor = new ResizeSensor(
-            self.innerElements[i],
-            function () {
-              resize(false);
-            }
-          );
+          self.innerElements[i].resizeSensor = new ResizeSensor(self.innerElements[i], function() {
+            resize(false);
+          });
         }
 
         update("init");
@@ -940,7 +874,7 @@
     for (var i = 0, len = anchors.length; i < len; i++) {
       anchors[i].addEventListener(
         "click",
-        function (target, rect) {
+        function(target, rect) {
           target = doc.querySelector(this.hash);
 
           // No target has found
@@ -949,9 +883,7 @@
           rect = target.getBoundingClientRect();
 
           // go
-          animateScrollTo(rect.top + window.pageYOffset || 0, {
-            cancelOnUserAction: false,
-          });
+          animateScrollTo(rect.top + window.pageYOffset || 0, { cancelOnUserAction: false });
         },
         false
       );
@@ -974,8 +906,8 @@
       classes: {
         active: "side-menu",
         display: "side-menu--display",
-        avoid: "side-menu-trigger",
-      },
+        avoid: "side-menu-trigger"
+      }
     };
 
     // No element has found.
@@ -985,7 +917,7 @@
     function open() {
       if (false === self.opened) {
         classie.add(doc.documentElement, self.classes.active);
-        setTimeout(function () {
+        setTimeout(function() {
           classie.add(doc.documentElement, self.classes.display);
           self.opened = true;
         }, 50);
@@ -996,7 +928,7 @@
     function close() {
       if (true === self.opened) {
         classie.remove(doc.documentElement, self.classes.display);
-        setTimeout(function () {
+        setTimeout(function() {
           classie.remove(doc.documentElement, self.classes.active);
           self.opened = false;
         }, 300);
@@ -1013,7 +945,7 @@
           max = self.sidemenu.clientWidth,
           handle = new Hammer(self.swipeable[i]);
 
-        handle.on("panstart", function (e) {
+        handle.on("panstart", function(e) {
           classie.add(doc.documentElement, "side-menu--panning");
         });
 
@@ -1021,12 +953,8 @@
         handle.on("swipeleft", close);
 
         // check how much user has swipped
-        handle.on("panright panleft", function (e) {
-          now =
-            now +
-            (4 === e.direction
-              ? Math.round(Math.max(3, e.velocity))
-              : Math.round(Math.min(-3, e.velocity)));
+        handle.on("panright panleft", function(e) {
+          now = now + (4 === e.direction ? Math.round(Math.max(3, e.velocity)) : Math.round(Math.min(-3, e.velocity)));
 
           if (now > 0) {
             now = 0;
@@ -1043,7 +971,7 @@
         });
 
         // close / reset sidemenu status
-        handle.on("panend pancancel", function (e) {
+        handle.on("panend pancancel", function(e) {
           classie.remove(doc.documentElement, "side-menu--panning");
 
           if (Math.abs(now) > max * 0.5) {
@@ -1067,12 +995,8 @@
     // close side-menu
     doc.addEventListener(
       "click",
-      function (e) {
-        if (
-          true === self.opened &&
-          e.pageX > self.sidemenu.clientWidth &&
-          false === classie.has(e.target, self.classes.avoid)
-        ) {
+      function(e) {
+        if (true === self.opened && e.pageX > self.sidemenu.clientWidth && false === classie.has(e.target, self.classes.avoid)) {
           close();
         }
       },
@@ -1116,13 +1040,13 @@
       classes: {
         child: "in-view__child",
         scope_in: "in-view--in",
-        child_in: "in-view__child--in",
-      },
+        child_in: "in-view__child--in"
+      }
     };
 
     // add class into elements
     function add(el, className, delay) {
-      setTimeout(function () {
+      setTimeout(function() {
         classie.add(el, className);
       }, delay);
     }
@@ -1131,19 +1055,13 @@
     for (var i = 0, len = scope.length; i < len; i++) {
       var waypoint = new Waypoint({
         element: scope[i],
-        handler: function (direction) {
-          var children = this.element.getElementsByClassName(
-            options.classes.child
-          );
+        handler: function(direction) {
+          var children = this.element.getElementsByClassName(options.classes.child);
 
           // check if this scope has any child that should specified as inview element
           if (0 < children.length) {
             for (var i = 0, len = children.length; i < len; i++) {
-              add(
-                children[i],
-                options.classes.child_in,
-                options.delay * (i + 1)
-              );
+              add(children[i], options.classes.child_in, options.delay * (i + 1));
             }
           }
 
@@ -1153,7 +1071,7 @@
           // trigger inview only once
           this.destroy();
         },
-        offset: scope[i].getAttribute("data-offset") || options.offset,
+        offset: scope[i].getAttribute("data-offset") || options.offset
       });
     }
   }
@@ -1174,7 +1092,7 @@
 
     // construct an instance of Headroom, passing the element
     headroom = new Headroom(el, {
-      offset: el.clientHeight || 120,
+      offset: el.clientHeight || 120
     });
     // initialise
     headroom.init();
@@ -1195,7 +1113,7 @@
 
     // construct an instance of Headroom, passing the element
     headroom = new Headroom(el, {
-      offset: win.innerHeight,
+      offset: win.innerHeight
     });
     // initialise
     headroom.init();
@@ -1216,9 +1134,7 @@
         return;
       }
 
-      assignedTab = tab.querySelector(
-        '.tabs__item[data-tab="' + target.getAttribute("data-tab") + '"]'
-      );
+      assignedTab = tab.querySelector('.tabs__item[data-tab="' + target.getAttribute("data-tab") + '"]');
 
       if (null === assignedTab || 0 === assignedTab.length) {
         return;
@@ -1247,7 +1163,7 @@
         // add event listener
         nav[i].addEventListener(
           "click",
-          function () {
+          function() {
             off(this, tab, elems);
           },
           false
@@ -1275,13 +1191,7 @@
     function apply(feed, request, config, list) {
       config = feed.getAttribute("data-config");
 
-      if (
-        null === config ||
-        undefined === win[config] ||
-        undefined === win[config].userId ||
-        undefined === win[config].accessToken
-      )
-        return;
+      if (null === config || undefined === win[config] || undefined === win[config].userId || undefined === win[config].accessToken) return;
 
       request = new Instafeed({
         get: "user",
@@ -1289,14 +1199,13 @@
         accessToken: win[config].accessToken,
         limit: win[config].limit || 6,
         resolution: win[config].resolution || "standard_resolution",
-        template:
-          '<figure class="instagram-feed__item lazyload--el lazyload" data-bg="{{image}}"></figure>',
-        error: function (e) {
+        template: '<figure class="instagram-feed__item lazyload--el lazyload" data-bg="{{image}}"></figure>',
+        error: function(e) {
           console.warn("Instagram feed warning:", e);
         },
-        success: function (e) {
+        success: function(e) {
           // console.log('Data type could be one of "Image", "Video" or "Carousel"...', e.data);
-        },
+        }
       });
       request.run();
     }
@@ -1318,7 +1227,7 @@
     if ("undefined" === typeof Masonry) return;
 
     function laidOut(msnry) {
-      setTimeout(function () {
+      setTimeout(function() {
         msnry.layout();
       }, 0);
     }
@@ -1330,10 +1239,10 @@
         // use element for option
         columnWidth: ".masonry-item",
         horizontalOrder: true,
-        percentPosition: true,
+        percentPosition: true
       });
 
-      msnry.once("layoutComplete", function (items, counter, cols, options) {
+      msnry.once("layoutComplete", function(items, counter, cols, options) {
         counter = 0;
         cols = items[0].layout.cols;
 
@@ -1342,13 +1251,13 @@
           offset: "80%",
           delay: 200,
           classes: {
-            scope_in: "indexed-list__in-view--in",
-          },
+            scope_in: "indexed-list__in-view--in"
+          }
         };
 
         // add class into elements
         function add(el, className, delay) {
-          setTimeout(function () {
+          setTimeout(function() {
             classie.add(el, className);
           }, delay);
         }
@@ -1363,18 +1272,14 @@
 
           var waypoint = new Waypoint({
             element: items[i].element,
-            handler: function (direction) {
+            handler: function(direction) {
               // add class to the scope
-              add(
-                this.element.querySelector(".indexed-list__in-view"),
-                options.classes.scope_in,
-                this.element.inViewDelay
-              );
+              add(this.element.querySelector(".indexed-list__in-view"), options.classes.scope_in, this.element.inViewDelay);
 
               // trigger inview only once
               this.destroy();
             },
-            offset: options.offset,
+            offset: options.offset
           });
         }
       });
@@ -1445,10 +1350,9 @@
 
     mcValidate = doc.createElement("script");
     mcValidate.type = "text/javascript";
-    mcValidate.src =
-      "https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js";
+    mcValidate.src = "https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js";
     doc.head.appendChild(mcValidate);
-    mcValidate.onload = function () {
+    mcValidate.onload = function() {
       win["fnames"] = ["EMAIL", "FNAME"];
       win["ftypes"] = ["email", "text"];
       win["$mcj"] = jQuery.noConflict(true);
@@ -1471,8 +1375,7 @@
 
       //
       var countDownDate = new Date(targetDate).getTime();
-      if (true === isNaN(countDownDate) || true === isNaN(countDownDate - 0))
-        return;
+      if (true === isNaN(countDownDate) || true === isNaN(countDownDate - 0)) return;
 
       var recess;
       var output = [];
@@ -1491,7 +1394,7 @@
           count: displayCount,
           default: def,
           length: def.length * -1,
-          max: Array(def.length + 1).join("9") * 1,
+          max: Array(def.length + 1).join("9") * 1
         });
       }
 
@@ -1503,31 +1406,23 @@
         // If the count down is over, write some text
         if (distance < 0) {
           clearInterval(recess);
-          console.warn("Countdown timer is expired!", {
-            element: cdt,
-            target: targetDate,
-          });
+          console.warn("Countdown timer is expired!", { element: cdt, target: targetDate });
           return;
         }
 
         // Time calculations for days, hours, minutes and seconds
         var time = {
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          ),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
         };
 
         for (var i = 0, len = output.length; i < len; i++) {
           var n = time[output[i].type];
           if (undefined === n) continue;
 
-          output[i].count.innerText =
-            n < output[i].max
-              ? (output[i].default + n).slice(output[i].length)
-              : n;
+          output[i].count.innerText = n < output[i].max ? (output[i].default + n).slice(output[i].length) : n;
         }
       }
 
@@ -1560,356 +1455,356 @@
           elementType: "geometry",
           stylers: [
             {
-              color: "#efefef",
-            },
-          ],
+              color: "#efefef"
+            }
+          ]
         },
         {
           elementType: "labels.icon",
           stylers: [
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#32353a",
-            },
-          ],
+              color: "#32353a"
+            }
+          ]
         },
         {
           elementType: "labels.text.stroke",
           stylers: [
             {
-              color: "#f5f5f5",
+              color: "#f5f5f5"
             },
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           featureType: "administrative.land_parcel",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#bdbdbd",
-            },
-          ],
+              color: "#bdbdbd"
+            }
+          ]
         },
         {
           featureType: "poi",
           elementType: "geometry",
           stylers: [
             {
-              color: "#eeeeee",
-            },
-          ],
+              color: "#eeeeee"
+            }
+          ]
         },
         {
           featureType: "poi",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#757575",
-            },
-          ],
+              color: "#757575"
+            }
+          ]
         },
         {
           featureType: "poi.park",
           elementType: "geometry",
           stylers: [
             {
-              color: "#e5e5e5",
-            },
-          ],
+              color: "#e5e5e5"
+            }
+          ]
         },
         {
           featureType: "poi.park",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#92959a",
-            },
-          ],
+              color: "#92959a"
+            }
+          ]
         },
         {
           featureType: "road",
           elementType: "geometry",
           stylers: [
             {
-              color: "#ffffff",
-            },
-          ],
+              color: "#ffffff"
+            }
+          ]
         },
         {
           featureType: "road.arterial",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#32353a",
-            },
-          ],
+              color: "#32353a"
+            }
+          ]
         },
         {
           featureType: "road.highway",
           elementType: "geometry",
           stylers: [
             {
-              color: "#dadada",
-            },
-          ],
+              color: "#dadada"
+            }
+          ]
         },
         {
           featureType: "road.highway",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#616161",
-            },
-          ],
+              color: "#616161"
+            }
+          ]
         },
         {
           featureType: "road.local",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#acb1bc",
-            },
-          ],
+              color: "#acb1bc"
+            }
+          ]
         },
         {
           featureType: "transit.line",
           elementType: "geometry",
           stylers: [
             {
-              color: "#e5e5e5",
-            },
-          ],
+              color: "#e5e5e5"
+            }
+          ]
         },
         {
           featureType: "transit.station",
           elementType: "geometry",
           stylers: [
             {
-              color: "#eeeeee",
-            },
-          ],
+              color: "#eeeeee"
+            }
+          ]
         },
         {
           featureType: "water",
           elementType: "geometry",
           stylers: [
             {
-              color: "#c9c9c9",
-            },
-          ],
+              color: "#c9c9c9"
+            }
+          ]
         },
         {
           featureType: "water",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#9e9e9e",
-            },
-          ],
-        },
+              color: "#9e9e9e"
+            }
+          ]
+        }
       ],
       dark: [
         {
           elementType: "geometry",
           stylers: [
             {
-              color: "#32353a",
-            },
-          ],
+              color: "#32353a"
+            }
+          ]
         },
         {
           elementType: "labels.icon",
           stylers: [
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#72757a",
-            },
-          ],
+              color: "#72757a"
+            }
+          ]
         },
         {
           elementType: "labels.text.stroke",
           stylers: [
             {
-              color: "#37393c",
+              color: "#37393c"
             },
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           featureType: "administrative",
           elementType: "geometry",
           stylers: [
             {
-              color: "#72757a",
-            },
-          ],
+              color: "#72757a"
+            }
+          ]
         },
         {
           featureType: "administrative.country",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#92959a",
-            },
-          ],
+              color: "#92959a"
+            }
+          ]
         },
         {
           featureType: "administrative.land_parcel",
           stylers: [
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           featureType: "administrative.locality",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#b2b5ba",
-            },
-          ],
+              color: "#b2b5ba"
+            }
+          ]
         },
         {
           featureType: "poi",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#72757a",
-            },
-          ],
+              color: "#72757a"
+            }
+          ]
         },
         {
           featureType: "poi.park",
           elementType: "geometry",
           stylers: [
             {
-              color: "#22252a",
-            },
-          ],
+              color: "#22252a"
+            }
+          ]
         },
         {
           featureType: "poi.park",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#62656a",
-            },
-          ],
+              color: "#62656a"
+            }
+          ]
         },
         {
           featureType: "poi.park",
           elementType: "labels.text.stroke",
           stylers: [
             {
-              color: "#22252a",
+              color: "#22252a"
             },
             {
-              visibility: "off",
-            },
-          ],
+              visibility: "off"
+            }
+          ]
         },
         {
           featureType: "road",
           elementType: "geometry.fill",
           stylers: [
             {
-              color: "#2c2f35",
-            },
-          ],
+              color: "#2c2f35"
+            }
+          ]
         },
         {
           featureType: "road",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#82858a",
-            },
-          ],
+              color: "#82858a"
+            }
+          ]
         },
         {
           featureType: "road.arterial",
           elementType: "geometry",
           stylers: [
             {
-              color: "#37393c",
-            },
-          ],
+              color: "#37393c"
+            }
+          ]
         },
         {
           featureType: "road.highway",
           elementType: "geometry",
           stylers: [
             {
-              color: "#3c3c3c",
-            },
-          ],
+              color: "#3c3c3c"
+            }
+          ]
         },
         {
           featureType: "road.highway.controlled_access",
           elementType: "geometry",
           stylers: [
             {
-              color: "#4e4e4e",
-            },
-          ],
+              color: "#4e4e4e"
+            }
+          ]
         },
         {
           featureType: "road.local",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#52555a",
-            },
-          ],
+              color: "#52555a"
+            }
+          ]
         },
         {
           featureType: "transit",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#75757a",
-            },
-          ],
+              color: "#75757a"
+            }
+          ]
         },
         {
           featureType: "water",
           elementType: "geometry",
           stylers: [
             {
-              color: "#12151a",
-            },
-          ],
+              color: "#12151a"
+            }
+          ]
         },
         {
           featureType: "water",
           elementType: "labels.text.fill",
           stylers: [
             {
-              color: "#32353a",
-            },
-          ],
-        },
-      ],
+              color: "#32353a"
+            }
+          ]
+        }
+      ]
     };
 
     // Google map
@@ -1920,10 +1815,7 @@
         var zoom = canvas.getAttribute("data-zoom") || 15;
         var hasMarker = "false" !== canvas.getAttribute("data-marker");
         var scrollwheel = "true" === canvas.getAttribute("data-scrollwheel");
-        var icon = JSON.parse(canvas.getAttribute("data-icon")) || {
-          url: "assets/media/map-marker.svg",
-          size: { width: 72, height: 72 },
-        };
+        var icon = JSON.parse(canvas.getAttribute("data-icon")) || { url: "assets/media/map-marker.svg", size: { width: 72, height: 72 } };
         var center = JSON.parse(canvas.getAttribute("data-location"));
 
         var draw = function draw() {
@@ -1931,7 +1823,7 @@
             scrollwheel: scrollwheel,
             center: center,
             zoom: parseInt(zoom),
-            styles: undefined !== styles[theme] ? styles[theme] : [],
+            styles: undefined !== styles[theme] ? styles[theme] : []
           });
 
           if (true === hasMarker) {
@@ -1943,18 +1835,15 @@
               optimized: false,
               icon: {
                 url: icon.url,
-                scaledSize: new google.maps.Size(
-                  icon.size.width,
-                  icon.size.height
-                ),
-              },
+                scaledSize: new google.maps.Size(icon.size.width, icon.size.height)
+              }
             });
           }
         };
 
         if (null === center) {
           var geocoder = new google.maps.Geocoder();
-          geocoder.geocode({ address: address }, function (results, status) {
+          geocoder.geocode({ address: address }, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
               center = results[0].geometry.location;
               setTimeout(draw, 0);
@@ -1966,7 +1855,7 @@
       };
 
       // Setup an instance on each map
-      maps.forEach(function (canvas) {
+      maps.forEach(function(canvas) {
         return set(canvas);
       });
     };
@@ -1977,10 +1866,7 @@
       var script = doc.createElement("script");
       script.async = true;
       script.defer = true;
-      script.src =
-        "https://maps.googleapis.com/maps/api/js?key=" +
-        maps[0].getAttribute("data-key") +
-        "&callback=initMap";
+      script.src = "https://maps.googleapis.com/maps/api/js?key=" + maps[0].getAttribute("data-key") + "&callback=initMap";
       doc.head.appendChild(script);
     }
   }
@@ -1995,10 +1881,10 @@
     // No element has found.
     if (0 === alerts.length) return;
 
-    alerts.forEach(function (alert) {
+    alerts.forEach(function(alert) {
       return alert.addEventListener(
         "click",
-        function () {
+        function() {
           return classie.add(alert.closest(".alert"), "sr-only");
         },
         false
@@ -2025,7 +1911,7 @@
         var collapse = classie.has(card, namespace + "__card--collapse");
 
         // collapse all
-        cards.forEach(function (card) {
+        cards.forEach(function(card) {
           return classie.add(card, namespace + "__card--collapse");
         });
 
@@ -2034,10 +1920,10 @@
         }
       };
 
-      headers.forEach(function (header) {
+      headers.forEach(function(header) {
         return header.addEventListener(
           "click",
-          function () {
+          function() {
             return toggle(header);
           },
           false
@@ -2045,7 +1931,7 @@
       });
     };
 
-    accordions.forEach(function (scope) {
+    accordions.forEach(function(scope) {
       return generate(scope);
     });
   }

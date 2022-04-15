@@ -526,7 +526,7 @@ div.mce_inline_error {
 ::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-:-ms-input-placeholder {
+::-moz-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 ::-ms-input-placeholder {
