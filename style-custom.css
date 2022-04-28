@@ -1,2 +1,202 @@
 /* Custom styles
    ========================================================================== */
+.content-wrapper {
+  font-size: 1.1em;
+  margin-bottom: 44px;
+}
+
+.content-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.button {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #e5efe9;
+  border: 1px solid #5a72b5;
+  border-radius: 4px;
+  color: #121943;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1em;
+  font-weight: 700;
+  height: 40px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 150px;
+}
+
+.button:focus {
+  border: 2px solid transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px #121943;
+          box-shadow: 0px 0px 0px 2px #121943;
+  outline: solid 4px transparent;
+}
+
+.link {
+  color: #121943;
+}
+
+.link:focus {
+  -webkit-box-shadow: 0px 0px 0px 2px #121943;
+          box-shadow: 0px 0px 0px 2px #121943;
+}
+
+.input-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.input-wrapper .label {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 700;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.input-wrapper .optional {
+  color: #5a72b5;
+  font-size: 0.9em;
+}
+
+.input-wrapper .input {
+  border: 1px solid #5a72b5;
+  border-radius: 4px;
+  height: 40px;
+  padding: 8px;
+}
+
+code {
+  background: #e5efe9;
+  border: 1px solid #5a72b5;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* 
+    
+    The following vars come from my theme. 
+    You'll need to replace with your own color values. 
+    
+    - "$light"
+    - "$mid"
+    - "$dark"
+    
+    */
+.toggle {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.toggle:last-of-type {
+  margin: 0;
+}
+
+.toggle__input {
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.toggle__input:not([disabled]):active + .toggle-track,
+.toggle__input:not([disabled]):focus + .toggle-track {
+  border: 1px solid transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px #121943;
+          box-shadow: 0px 0px 0px 2px #121943;
+}
+
+.toggle__input:disabled + .toggle-track {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.toggle-track {
+  background: #e5efe9;
+  border: 1px solid #5a72b5;
+  border-radius: 100px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 30px;
+  margin-right: 12px;
+  position: relative;
+  width: 60px;
+}
+
+.toggle-indicator {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #121943;
+  border-radius: 24px;
+  bottom: 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 24px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  left: 2px;
+  outline: solid 2px transparent;
+  position: absolute;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+  width: 24px;
+}
+
+.checkMark {
+  fill: #fff;
+  height: 20px;
+  width: 20px;
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.toggle__input:checked + .toggle-track .toggle-indicator {
+  background: #121943;
+  -webkit-transform: translateX(30px);
+          transform: translateX(30px);
+}
+
+.toggle__input:checked + .toggle-track .toggle-indicator .checkMark {
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+
+@media screen and (-ms-high-contrast: active) {
+  .toggle-track {
+    border-radius: 0;
+  }
+}
