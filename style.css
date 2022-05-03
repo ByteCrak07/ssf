@@ -1,35 +1,3 @@
-/*
-Theme Name: Mae
-Theme URI: https://mae.pixudio.com/
-Author: Pixudio INC.
-Author URI: https://pixudio.com/
-Description: Solid - Bold and stylish, Mae is an event template well suited for tech conferences, design talks, business meetups, event planer agencies and everyone else who appreciate good design. The template was built based on modern Bootstrap 4 flex grids, so you know it contains clean, precise code that makes for a highly streamlined site.
-Version: 3.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: pixudio-theme
-*/
-
-/*--------------------------------------------------------------
->>> TABLE OF CONTENTS:
-----------------------------------------------------------------
-# Normalize
-# Grids
-# Layout
-  ## Posts
-  ## Pages
-  ## Header
-  ## Footer
-  ## Widgets
-# Typography
-# Forms
-# Customizer
-# Accessibility
-# Alignments
-# Clearings
-# Custom & Media Queries
---------------------------------------------------------------*/
-
 /*! normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -457,6 +425,38 @@ template {
 [hidden] {
   display: none;
 }
+
+/*
+Theme Name: Mae
+Theme URI: https://mae.pixudio.com/
+Author: Pixudio INC.
+Author URI: https://pixudio.com/
+Description: Solid - Bold and stylish, Mae is an event template well suited for tech conferences, design talks, business meetups, event planer agencies and everyone else who appreciate good design. The template was built based on modern Bootstrap 4 flex grids, so you know it contains clean, precise code that makes for a highly streamlined site.
+Version: 3.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: pixudio-theme
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Normalize
+# Grids
+# Layout
+  ## Posts
+  ## Pages
+  ## Header
+  ## Footer
+  ## Widgets
+# Typography
+# Forms
+# Customizer
+# Accessibility
+# Alignments
+# Clearings
+# Custom & Media Queries
+--------------------------------------------------------------*/
 
 /*!
  * Bootstrap Grid v4.6.1 (https://getbootstrap.com/)
