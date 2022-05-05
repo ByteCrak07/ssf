@@ -238,3 +238,120 @@ if (archathonForm) {
       });
   }
 }
+
+
+//PROJECT-EXPO-STARTUP FORM
+const projectExpoStartupForm = document.getElementById("projectExpoStartup_form");
+if (projectExpoStartupForm) {
+  projectExpoStartupForm.addEventListener("submit", projectExpoStartupFormSubmit);
+
+  function projectExpoStartupFormSubmit(e) {
+    e.preventDefault();
+    const submitBtn = projectExpoStartupForm.getElementsByTagName("button")[0];
+    submitBtn.disabled = true;
+
+    const inputs = projectExpoStartupForm.getElementsByTagName("input");
+
+    var data = {};
+
+    for (var i = 0; i < inputs.length; i++) {
+      data[inputs[i].name] = inputs[i].value;
+    }
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(data);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    data["time"] = { ".sv": "timestamp" };
+
+    var raw = JSON.stringify(data);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://summer-startup-festival-default-rtdb.asia-southeast1.firebasedatabase.app/projectExpoStartup.json",
+      requestOptions
+    )
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (result) {
+        document.getElementById("form_success").classList.remove("sr-only");
+      })
+      .catch(function (error) {
+        submitBtn.disabled = false;
+        document.getElementById("form_error").classList.remove("sr-only");
+      });
+  }
+}
+
+//PROJECT-EXPO-STUDENT FORM
+const projectExpoStudentForm = document.getElementById("projectExpoStudent_form");
+if (projectExpoStudentForm) {
+  projectExpoStudentForm.addEventListener("submit", projectExpoStudentFormSubmit);
+
+  function projectExpoStudentFormSubmit(e) {
+    e.preventDefault();
+    const submitBtn = projectExpoStudentForm.getElementsByTagName("button")[0];
+    submitBtn.disabled = true;
+
+    const inputs = projectExpoStudentForm.getElementsByTagName("input");
+
+    var data = {};
+
+    for (var i = 0; i < inputs.length; i++) {
+      data[inputs[i].name] = inputs[i].value;
+    }
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify(data);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    data["time"] = { ".sv": "timestamp" };
+
+    var raw = JSON.stringify(data);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://summer-startup-festival-default-rtdb.asia-southeast1.firebasedatabase.app/projectExpoStudent.json",
+      requestOptions
+    )
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (result) {
+        document.getElementById("form_success").classList.remove("sr-only");
+      })
+      .catch(function (error) {
+        submitBtn.disabled = false;
+        document.getElementById("form_error").classList.remove("sr-only");
+      });
+  }
+}
