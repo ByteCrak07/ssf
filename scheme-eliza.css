@@ -114,7 +114,7 @@ a.dashed:not(.dashed--vertical):hover:after {
 }
 
 .indexed-list__wrap__desc {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .indexed-list__wrap__link a:not(:hover) {
@@ -293,7 +293,7 @@ a.dashed:not(.dashed--vertical):hover:after {
 }
 
 .site-sidenav__nav ul.sub-menu a {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .site-sidenav__cat {
@@ -344,11 +344,11 @@ a.sub-head {
 }
 
 .text-body-3 {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .sub-head-2 {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .sub-head-2 a:not(:hover) {
@@ -408,7 +408,7 @@ input[type="datetime"],
 input[type="datetime-local"],
 input[type="color"],
 textarea {
-  color: #8d929c;
+  color: #6B2B06;
   background-color: #d1deee;
 }
 
@@ -544,11 +544,11 @@ div.mce_inline_error {
 }
 
 .color--body-alt {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .background-color--body-alt {
-  background-color: #8d929c;
+  background-color: #6B2B06;
 }
 
 .color--body-lighten {

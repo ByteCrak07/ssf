@@ -114,7 +114,7 @@ a.dashed:not(.dashed--vertical):hover:after {
 }
 
 .indexed-list__wrap__desc {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .indexed-list__wrap__link a:not(:hover) {
@@ -293,7 +293,7 @@ a.dashed:not(.dashed--vertical):hover:after {
 }
 
 .site-sidenav__nav ul.sub-menu a {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .site-sidenav__cat {
@@ -344,11 +344,11 @@ a.sub-head {
 }
 
 .text-body-3 {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .sub-head-2 {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .sub-head-2 a:not(:hover) {
@@ -480,7 +480,7 @@ div.mce_inline_error {
 /* Pricing
    ========================================================================== */
 .pricing__item {
-  border: solid 1px #565a63;
+  border: solid 1px #010000;
 }
 
 /* Alert
@@ -545,11 +545,11 @@ div.mce_inline_error {
 }
 
 .color--body-alt {
-  color: #8d929c;
+  color: #6B2B06;
 }
 
 .background-color--body-alt {
-  background-color: #8d929c;
+  background-color: #6B2B06;
 }
 
 .color--body-lighten {
